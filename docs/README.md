@@ -12,7 +12,7 @@ The dashboard provides an interactive interface for exploring:
 
 ## Accessing the Dashboard
 
-The dashboard is accessible at: [https://yourusername.github.io/defi-credit-risk-sim/](https://yourusername.github.io/defi-credit-risk-sim/)
+The dashboard is accessible at: [https://abhinavsrv.github.io/defi-credit-risk-sim/](https://abhinavsrv.github.io/defi-credit-risk-sim/)
 
 ## Implementation Details
 
@@ -31,7 +31,7 @@ To deploy this dashboard to GitHub Pages:
 1. Push the repository to GitHub
 2. Enable GitHub Pages in repository settings
 3. Set the source to the `docs` folder
-4. The dashboard will be available at `https://yourusername.github.io/defi-credit-risk-sim/`
+4. The dashboard will be available at `https://abhinavsrv.github.io/defi-credit-risk-sim/`
 
 ## Project Structure
 
