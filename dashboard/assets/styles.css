@@ -1,0 +1,283 @@
+/* DeFi Credit Risk Dashboard Styles */
+
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f8fa;
+    color: #2c3e50;
+}
+
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+.header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.header-description {
+    margin: 10px 0 0;
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+/* Tab Styles */
+.tab-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Metrics Container */
+.metrics-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.metric-card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    flex: 1;
+    min-width: 150px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.metric-label {
+    margin: 0 0 5px;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.metric-value {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* Prediction Container */
+.prediction-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.prediction-result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Risk Meter */
+.risk-meter-container {
+    margin: 15px 0;
+}
+
+.risk-meter {
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.risk-meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #28a745, #ffc107, #dc3545);
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+}
+
+.risk-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.risk-label-low {
+    color: #28a745;
+}
+
+.risk-label-medium {
+    color: #ffc107;
+}
+
+.risk-label-high {
+    color: #dc3545;
+}
+
+/* Optimization Container */
+.optimization-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.optimization-result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Data Explorer */
+.data-explorer-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.control-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th, .table-container td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.table-container th {
+    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+}
+
+/* Button Styles */
+.button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.button:hover {
+    background-color: #2980b9;
+}
+
+/* Footer */
+.footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+/* Responsive Grid */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.columns {
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.six.columns {
+    width: 50%;
+}
+
+.four.columns {
+    width: 33.33%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .six.columns, .four.columns {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .metric-card {
+        min-width: 100%;
+    }
+}
+
+/* GitHub Pages specific styles */
+.github-ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
+
+.github-info {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+    border-left: 4px solid #3498db;
+}
+
+/* Loading spinner */
+.loading-spinner {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(0,0,0,.1);
+    border-radius: 50%;
+    border-top-color: #3498db;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

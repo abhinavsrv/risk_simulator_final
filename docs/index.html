@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Simulator Analytics</title>
+    <meta name="description" content="Enterprise-grade analytics platform for financial risk simulation">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="header-title">Risk Simulator Analytics</h1>
+            <p class="header-description">Enterprise-grade risk assessment platform for financial markets</p>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-navigation">
+            <button class="tab-button active" onclick="openTab(event, 'overview')">Overview</button>
+            <button class="tab-button" onclick="openTab(event, 'credit-risk')">Risk Modeling</button>
+            <button class="tab-button" onclick="openTab(event, 'portfolio')">Portfolio Optimization</button>
+            <button class="tab-button" onclick="openTab(event, 'simulation')">Market Simulation</button>
+            <button class="tab-button" onclick="openTab(event, 'data-explorer')">Data Explorer</button>
+            <button class="tab-button" onclick="openTab(event, 'about')">About</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <h2>Market Intelligence</h2>
+            <p>
+                This enterprise platform provides comprehensive analytics for credit risk assessment in financial markets.
+                Leverage advanced machine learning models and portfolio optimization techniques to make data-driven decisions.
+            </p>
+            
+            <div class="row">
+                <div class="six columns">
+                    <h3>Key Performance Indicators</h3>
+                    <div class="metrics-container">
+                        <div class="metric-card">
+                            <p class="metric-label">Total Loans</p>
+                            <p class="metric-value">2,500</p>
+                        </div>
+                        <div class="metric-card">
+                            <p class="metric-label">Total Borrowers</p>
+                            <p class="metric-value">1,200</p>
+                        </div>
+                        <div class="metric-card">
+                            <p class="metric-label">Average Loan Amount</p>
+                            <p class="metric-value">$15,420</p>
+                        </div>
+                        <div class="metric-card">
+                            <p class="metric-label">Default Rate</p>
+                            <p class="metric-value">7.25%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="six columns">
+                    <h3>Default Rate by Trust Score</h3>
+                    <div id="overview-trust-default" class="chart-container"></div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="six columns">
+                    <h3>Loan Amount Distribution</h3>
+                    <div id="overview-loan-amount" class="chart-container"></div>
+                </div>
+                
+                <div class="six columns">
+                    <h3>Default Rate by Loan Size</h3>
+                    <div id="overview-size-default" class="chart-container"></div>
+                </div>
+            </div>
+
+            <div class="project-info">
+                <h4>Enterprise Analytics Platform</h4>
+                <p>This platform features real-time data visualization and analysis tools for institutional-grade financial risk assessment.</p>
+                <p>The system integrates advanced simulation capabilities, machine learning models, and portfolio optimization algorithms.</p>
+            </div>
+        </div>
+
+        <!-- Credit Risk Modeling Tab -->
+        <div id="credit-risk" class="tab-content">
+            <h2>Risk Modeling</h2>
+            
+            <div class="row">
+                <div class="six columns">
+                    <h3>Feature Importance</h3>
+                    <div id="model-feature-importance" class="chart-container">
+                        <img src="assets/shap_importance.png" alt="SHAP Feature Importance" style="width:100%;">
+                    </div>
+                </div>
+                
+                <div class="six columns">
+                    <h3>Model Performance</h3>
+                    <div id="model-performance" class="chart-container">
+                        <img src="assets/roc_curve.png" alt="ROC Curve" style="width:100%;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="prediction-container">
+                <h3>Default Probability Calculator</h3>
+                <p>Enter loan parameters to calculate default probability:</p>
+                
+                <div class="row">
+                    <div class="four columns">
+                        <label>Trust Score (0-1):</label>
+                        <input type="range" id="pred-trust-score" min="0" max="1" step="0.01" value="0.7">
+                        <span id="trust-score-value">0.7</span>
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Loan Amount ($):</label>
+                        <input type="number" id="pred-loan-amount" value="10000" min="1000" max="100000">
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Interest Rate (%):</label>
+                        <input type="number" id="pred-interest-rate" value="5" min="1" max="20">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="four columns">
+                        <label>Collateral Ratio:</label>
+                        <input type="number" id="pred-collateral-ratio" value="1.5" min="1" max="3" step="0.1">
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Market Volatility:</label>
+                        <input type="range" id="pred-market-volatility" min="0.05" max="0.5" step="0.01" value="0.2">
+                        <span id="volatility-value">0.2</span>
+                    </div>
+                    
+                    <div class="four columns" style="margin-top: 25px;">
+                        <button id="predict-button" class="button" onclick="predictDefault()">Calculate Risk</button>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div id="prediction-result" class="prediction-result">
+                        Enter loan details and click Calculate Risk
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <h4>Risk Analysis</h4>
+                    <div id="prediction-explanation">
+                        <p>The risk analysis will appear here after calculation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Optimization Tab -->
+        <div id="portfolio" class="tab-content">
+            <h2>Portfolio Optimization</h2>
+            
+            <div class="row">
+                <div class="six columns">
+                    <h3>Efficient Frontier</h3>
+                    <div id="portfolio-efficient-frontier" class="chart-container">
+                        <img src="assets/efficient_frontier.png" alt="Efficient Frontier" style="width:100%;">
+                    </div>
+                </div>
+                
+                <div class="six columns">
+                    <h3>Portfolio Allocation</h3>
+                    <div id="portfolio-allocation" class="chart-container">
+                        <img src="assets/portfolio_weights_comparison.png" alt="Portfolio Allocation" style="width:100%;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <h3>Segment Performance</h3>
+                <div id="segment-performance" class="chart-container">
+                    <img src="assets/portfolio_weights_heatmap.png" alt="Segment Performance" style="width:100%;">
+                </div>
+            </div>
+            
+            <div class="optimization-container">
+                <h3>Portfolio Optimizer</h3>
+                <p>Adjust risk tolerance to optimize capital allocation:</p>
+                
+                <div class="row">
+                    <label>Risk Tolerance:</label>
+                    <input type="range" id="risk-tolerance" min="0.1" max="5" step="0.1" value="1">
+                    <span id="risk-tolerance-value">1.0</span>
+                </div>
+                
+                <div class="row" style="margin-top: 15px;">
+                    <button id="optimize-button" class="button" onclick="optimizePortfolio()">Optimize Portfolio</button>
+                </div>
+                
+                <div class="row">
+                    <div id="optimization-result" class="optimization-result">
+                        Adjust risk tolerance and click Optimize Portfolio
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simulation Tab -->
+        <div id="simulation" class="tab-content">
+            <h2>Market Simulation</h2>
+            
+            <div class="row">
+                <h3>Simulation Parameters</h3>
+                
+                <div class="row">
+                    <div class="four columns">
+                        <label>Number of Borrowers:</label>
+                        <input type="number" id="sim-num-borrowers" value="100" min="10" max="1000">
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Number of Lenders:</label>
+                        <input type="number" id="sim-num-lenders" value="10" min="1" max="100">
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Simulation Duration (days):</label>
+                        <input type="number" id="sim-duration" value="90" min="30" max="365">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="four columns">
+                        <label>Market Volatility:</label>
+                        <input type="range" id="sim-volatility" min="0.05" max="0.5" step="0.01" value="0.2">
+                        <span id="sim-volatility-value">0.2</span>
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Base Interest Rate (%):</label>
+                        <input type="number" id="sim-interest-rate" value="5" min="1" max="20">
+                    </div>
+                    
+                    <div class="four columns" style="margin-top: 25px;">
+                        <button id="run-simulation-button" class="button" onclick="runSimulation()">Run Simulation</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div id="simulation-results">
+                    Set simulation parameters and click Run Simulation
+                </div>
+            </div>
+            
+            <div class="row">
+                <h3>Market Conditions</h3>
+                <div id="sim-market-conditions" class="chart-container"></div>
+            </div>
+            
+            <div class="row">
+                <h3>Loan Performance</h3>
+                <div id="sim-loan-performance" class="chart-container"></div>
+            </div>
+        </div>
+
+        <!-- Data Explorer Tab -->
+        <div id="data-explorer" class="tab-content">
+            <h2>Data Explorer</h2>
+            
+            <div class="data-explorer-controls">
+                <div class="control-group">
+                    <label>Dataset:</label>
+                    <select id="dataset-selector" onchange="updateDataExplorer()">
+                        <option value="loan_data">Loan Data</option>
+                        <option value="borrower_data">Borrower Data</option>
+                        <option value="segment_stats">Segment Statistics</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Visualization Type:</label>
+                    <select id="viz-type-selector" onchange="updateDataExplorer()">
+                        <option value="scatter">Scatter Plot</option>
+                        <option value="histogram">Histogram</option>
+                        <option value="box">Box Plot</option>
+                        <option value="bar">Bar Chart</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>X-Axis:</label>
+                    <select id="x-axis-selector" onchange="updateDataExplorer()"></select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Y-Axis:</label>
+                    <select id="y-axis-selector" onchange="updateDataExplorer()"></select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Color By:</label>
+                    <select id="color-selector" onchange="updateDataExplorer()"></select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Filter By:</label>
+                    <select id="filter-selector" onchange="updateFilterControls()"></select>
+                </div>
+            </div>
+            
+            <div id="filter-controls"></div>
+            
+            <div class="row">
+                <div id="data-explorer-graph" class="chart-container"></div>
+            </div>
+            
+            <div class="row">
+                <div id="data-preview"></div>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div id="about" class="tab-content">
+            <h2>About This Platform</h2>
+            
+            <p>
+                This enterprise-grade analytics platform provides comprehensive risk assessment and portfolio optimization 
+                for institutional participants in financial markets.
+            </p>
+            
+            <h3>Platform Components</h3>
+            <p>
+                The system integrates several advanced components:
+            </p>
+            <ul>
+                <li>Advanced simulation environment with multi-agent modeling</li>
+                <li>Machine learning models for credit risk prediction with explainability</li>
+                <li>Portfolio optimization using modern financial theory</li>
+                <li>Interactive analytics dashboard for visualization and decision support</li>
+            </ul>
+            
+            <h3>Technologies</h3>
+            <p>
+                The platform leverages state-of-the-art technologies:
+            </p>
+            <ul>
+                <li>SimPy for discrete event simulation</li>
+                <li>XGBoost and SHAP for machine learning and explainability</li>
+                <li>CVXPY for portfolio optimization</li>
+                <li>Plotly.js for interactive visualization</li>
+            </ul>
+            <p>
+                The architecture is modular, allowing components to be used independently
+                or as an integrated system.
+            </p>
+            
+            <h3>References</h3>
+            <ul>
+                <li>
+                    Markowitz, H. (1952). 
+                    <a href="https://www.jstor.org/stable/2975974" target="_blank">Portfolio Selection</a>. 
+                    The Journal of Finance, 7(1), 77-91.
+                </li>
+                <li>
+                    Rockafellar, R. T., & Uryasev, S. (2000). 
+                    <a href="https://doi.org/10.1023/A:1008995631948" target="_blank">Optimization of conditional value-at-risk</a>. 
+                    Journal of Risk, 2, 21-42.
+                </li>
+                <li>
+                    Lundberg, S. M., & Lee, S. I. (2017). 
+                    <a href="https://proceedings.neurips.cc/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-Abstract.html" target="_blank">A Unified Approach to Interpreting Model Predictions</a>. 
+                    Advances in Neural Information Processing Systems 30.
+                </li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Risk Simulator Analytics Platform © 2025</p>
+        </div>
+    </div>
+
+    <script src="assets/dashboard.js"></script>
+</body>
+</html>

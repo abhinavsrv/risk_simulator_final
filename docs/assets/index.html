@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeFi Credit Risk Dashboard</title>
+    <meta name="description" content="Autonomous Multi-Agent AI System for Credit Risk in DeFi - Interactive Dashboard">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="header-title">DeFi Credit Risk Analysis Dashboard</h1>
+            <p class="header-description">Autonomous Multi-Agent AI System for Credit Risk in DeFi</p>
+        </div>
+
+        <!-- GitHub Ribbon -->
+        <a href="https://github.com/yourusername/defi-credit-risk-sim" target="_blank">
+            <img class="github-ribbon" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub">
+        </a>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-navigation">
+            <button class="tab-button active" onclick="openTab(event, 'overview')">Overview</button>
+            <button class="tab-button" onclick="openTab(event, 'credit-risk')">Credit Risk Modeling</button>
+            <button class="tab-button" onclick="openTab(event, 'portfolio')">Portfolio Optimization</button>
+            <button class="tab-button" onclick="openTab(event, 'simulation')">Simulation</button>
+            <button class="tab-button" onclick="openTab(event, 'data-explorer')">Data Explorer</button>
+            <button class="tab-button" onclick="openTab(event, 'about')">About</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <h2>Project Overview</h2>
+            <p>
+                This dashboard provides an interactive interface for analyzing credit risk in DeFi lending.
+                It integrates simulation data, machine learning models, and portfolio optimization techniques
+                to help lenders make informed decisions about capital allocation.
+            </p>
+            
+            <div class="row">
+                <div class="six columns">
+                    <h3>Key Metrics</h3>
+                    <div class="metrics-container">
+                        <div class="metric-card">
+                            <p class="metric-label">Total Loans</p>
+                            <p class="metric-value">2,500</p>
+                        </div>
+                        <div class="metric-card">
+                            <p class="metric-label">Total Borrowers</p>
+                            <p class="metric-value">1,200</p>
+                        </div>
+                        <div class="metric-card">
+                            <p class="metric-label">Average Loan Amount</p>
+                            <p class="metric-value">$15,420.75</p>
+                        </div>
+                        <div class="metric-card">
+                            <p class="metric-label">Default Rate</p>
+                            <p class="metric-value">7.25%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="six columns">
+                    <h3>Default Rate by Trust Score</h3>
+                    <div id="overview-trust-default" class="chart-container"></div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="six columns">
+                    <h3>Loan Amount Distribution</h3>
+                    <div id="overview-loan-amount" class="chart-container"></div>
+                </div>
+                
+                <div class="six columns">
+                    <h3>Default Rate by Loan Size</h3>
+                    <div id="overview-size-default" class="chart-container"></div>
+                </div>
+            </div>
+
+            <div class="github-info">
+                <h4>GitHub Pages Integration</h4>
+                <p>This dashboard is optimized for GitHub Pages hosting. All visualizations are pre-rendered or generated client-side using Plotly.js.</p>
+                <p>The complete project repository includes the simulation environment, agent models, ML components, and this dashboard.</p>
+            </div>
+        </div>
+
+        <!-- Credit Risk Modeling Tab -->
+        <div id="credit-risk" class="tab-content">
+            <h2>Credit Risk Model Analysis</h2>
+            
+            <div class="row">
+                <div class="six columns">
+                    <h3>Feature Importance</h3>
+                    <div id="model-feature-importance" class="chart-container">
+                        <img src="shap_importance.png" alt="SHAP Feature Importance" style="width:100%;">
+                    </div>
+                </div>
+                
+                <div class="six columns">
+                    <h3>Model Performance</h3>
+                    <div id="model-performance" class="chart-container">
+                        <img src="roc_curve.png" alt="ROC Curve" style="width:100%;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="prediction-container">
+                <h3>Default Probability Prediction</h3>
+                <p>Enter loan details to predict default probability:</p>
+                
+                <div class="row">
+                    <div class="four columns">
+                        <label>Trust Score (0-1):</label>
+                        <input type="range" id="pred-trust-score" min="0" max="1" step="0.01" value="0.7">
+                        <span id="trust-score-value">0.7</span>
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Loan Amount ($):</label>
+                        <input type="number" id="pred-loan-amount" value="10000" min="1000" max="100000">
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Interest Rate (%):</label>
+                        <input type="number" id="pred-interest-rate" value="5" min="1" max="20">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="four columns">
+                        <label>Collateral Ratio:</label>
+                        <input type="number" id="pred-collateral-ratio" value="1.5" min="1" max="3" step="0.1">
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Market Volatility:</label>
+                        <input type="range" id="pred-market-volatility" min="0.05" max="0.5" step="0.01" value="0.2">
+                        <span id="volatility-value">0.2</span>
+                    </div>
+                    
+                    <div class="four columns" style="margin-top: 25px;">
+                        <button id="predict-button" class="button" onclick="predictDefault()">Predict</button>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div id="prediction-result" class="prediction-result">
+                        Enter loan details and click Predict
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <h4>Explanation</h4>
+                    <div id="prediction-explanation">
+                        <p>The prediction will be explained here after clicking the Predict button.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Optimization Tab -->
+        <div id="portfolio" class="tab-content">
+            <h2>Portfolio Optimization Analysis</h2>
+            
+            <div class="row">
+                <div class="six columns">
+                    <h3>Efficient Frontier</h3>
+                    <div id="portfolio-efficient-frontier" class="chart-container">
+                        <img src="efficient_frontier.png" alt="Efficient Frontier" style="width:100%;">
+                    </div>
+                </div>
+                
+                <div class="six columns">
+                    <h3>Portfolio Allocation</h3>
+                    <div id="portfolio-allocation" class="chart-container">
+                        <img src="portfolio_weights_comparison.png" alt="Portfolio Allocation" style="width:100%;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <h3>Segment Performance</h3>
+                <div id="segment-performance" class="chart-container">
+                    <img src="portfolio_weights_heatmap.png" alt="Segment Performance" style="width:100%;">
+                </div>
+            </div>
+            
+            <div class="optimization-container">
+                <h3>Portfolio Optimizer</h3>
+                <p>Adjust risk tolerance to see optimal portfolio allocation:</p>
+                
+                <div class="row">
+                    <label>Risk Tolerance:</label>
+                    <input type="range" id="risk-tolerance" min="0.1" max="5" step="0.1" value="1">
+                    <span id="risk-tolerance-value">1.0</span>
+                </div>
+                
+                <div class="row" style="margin-top: 15px;">
+                    <button id="optimize-button" class="button" onclick="optimizePortfolio()">Optimize</button>
+                </div>
+                
+                <div class="row">
+                    <div id="optimization-result" class="optimization-result">
+                        Adjust risk tolerance and click Optimize
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simulation Tab -->
+        <div id="simulation" class="tab-content">
+            <h2>Simulation Environment</h2>
+            
+            <div class="row">
+                <h3>Simulation Parameters</h3>
+                
+                <div class="row">
+                    <div class="four columns">
+                        <label>Number of Borrowers:</label>
+                        <input type="number" id="sim-num-borrowers" value="100" min="10" max="1000">
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Number of Lenders:</label>
+                        <input type="number" id="sim-num-lenders" value="10" min="1" max="100">
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Simulation Duration (days):</label>
+                        <input type="number" id="sim-duration" value="90" min="30" max="365">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="four columns">
+                        <label>Market Volatility:</label>
+                        <input type="range" id="sim-volatility" min="0.05" max="0.5" step="0.01" value="0.2">
+                        <span id="sim-volatility-value">0.2</span>
+                    </div>
+                    
+                    <div class="four columns">
+                        <label>Base Interest Rate (%):</label>
+                        <input type="number" id="sim-interest-rate" value="5" min="1" max="20">
+                    </div>
+                    
+                    <div class="four columns" style="margin-top: 25px;">
+                        <button id="run-simulation-button" class="button" onclick="runSimulation()">Run Simulation</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div id="simulation-results">
+                    Set simulation parameters and click Run Simulation
+                </div>
+            </div>
+            
+            <div class="row">
+                <h3>Market Conditions</h3>
+                <div id="sim-market-conditions" class="chart-container"></div>
+            </div>
+            
+            <div class="row">
+                <h3>Loan Performance</h3>
+                <div id="sim-loan-performance" class="chart-container"></div>
+            </div>
+        </div>
+
+        <!-- Data Explorer Tab -->
+        <div id="data-explorer" class="tab-content">
+            <h2>Data Explorer</h2>
+            
+            <div class="data-explorer-controls">
+                <div class="control-group">
+                    <label>Dataset:</label>
+                    <select id="dataset-selector" onchange="updateDataExplorer()">
+                        <option value="loan_data">Loan Data</option>
+                        <option value="borrower_data">Borrower Data</option>
+                        <option value="segment_stats">Segment Statistics</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Visualization Type:</label>
+                    <select id="viz-type-selector" onchange="updateDataExplorer()">
+                        <option value="scatter">Scatter Plot</option>
+                        <option value="histogram">Histogram</option>
+                        <option value="box">Box Plot</option>
+                        <option value="bar">Bar Chart</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>X-Axis:</label>
+                    <select id="x-axis-selector" onchange="updateDataExplorer()"></select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Y-Axis:</label>
+                    <select id="y-axis-selector" onchange="updateDataExplorer()"></select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Color By:</label>
+                    <select id="color-selector" onchange="updateDataExplorer()"></select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Filter By:</label>
+                    <select id="filter-selector" onchange="updateFilterControls()"></select>
+                </div>
+            </div>
+            
+            <div id="filter-controls"></div>
+            
+            <div class="row">
+                <div id="data-explorer-graph" class="chart-container"></div>
+            </div>
+            
+            <div class="row">
+                <div id="data-preview"></div>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div id="about" class="tab-content">
+            <h2>About This Project</h2>
+            
+            <p>
+                The Autonomous Multi-Agent AI System for Credit Risk in DeFi is a comprehensive
+                simulation and analysis platform for understanding and optimizing lending strategies
+                in decentralized finance environments.
+            </p>
+            
+            <h3>Project Components</h3>
+            <p>
+                This project consists of several integrated components:
+            </p>
+            <ul>
+                <li>SimPy-based simulation environment with borrower, lender, and regulator agents</li>
+                <li>Machine learning models for credit risk prediction with explainability</li>
+                <li>Portfolio optimization using modern financial theory</li>
+                <li>Interactive dashboard for visualization and analysis</li>
+            </ul>
+            
+            <h3>Technologies Used</h3>
+            <p>
+                The project leverages state-of-the-art technologies in AI, finance, and data science:
+            </p>
+            <ul>
+                <li>SimPy for discrete event simulation</li>
+                <li>XGBoost and SHAP for machine learning and explainability</li>
+                <li>CVXPY for portfolio optimization</li>
+                <li>Plotly.js for interactive visualization</li>
+            </ul>
+            <p>
+                The codebase is organized into modular components that can be used independently
+                or as an integrated system. All code is available on GitHub.
+            </p>
+            
+            <h3>References</h3>
+            <ul>
+                <li>
+                    Markowitz, H. (1952). 
+                    <a href="https://www.jstor.org/stable/2975974" target="_blank">Portfolio Selection</a>. 
+                    The Journal of Finance, 7(1), 77-91.
+                </li>
+                <li>
+                    Rockafellar, R. T., & Uryasev, S. (2000). 
+                    <a href="https://doi.org/10.1023/A:1008995631948" target="_blank">Optimization of conditional value-at-risk</a>. 
+                    Journal of Risk, 2, 21-42.
+                </li>
+                <li>
+                    Lundberg, S. M., & Lee, S. I. (2017). 
+                    <a href="https://proceedings.neurips.cc/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-Abstract.html" target="_blank">A Unified Approach to Interpreting Model Predictions</a>. 
+                    Advances in Neural Information Processing Systems 30.
+                </li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Autonomous Multi-Agent AI System for Credit Risk in DeFi © 2025</p>
+            <p>
+                Created for Quant Role Interview | 
+                <a href="https://github.com/yourusername/defi-credit-risk-sim" target="_blank" id="github-link">GitHub Repository</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
